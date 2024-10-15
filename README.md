@@ -39,5 +39,6 @@ Follow these steps to run the project on your local machine using Conda.
 
 - Replace `document-qa` with your preferred environment name.
 - Ensure `requirements.txt` is up to date with all necessary dependencies.
-
+- If the app doesn’t automatically create a vectorstore folder, please create it manually
+  
 That's it! Your project should now be running on your local machine.
