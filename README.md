@@ -1,4 +1,4 @@
-# Lightweight REST API for Document-based Q&A powered by FAISS and OpenAI, enabling efficient PDF querying and intelligent answers
+## Lightweight REST API for Document-based Q&A powered by FAISS and OpenAI, enabling efficient PDF querying and intelligent answers
 
 Follow these steps to run the project on your local machine using Conda.
 
