@@ -22,6 +22,15 @@ app = FastAPI(
     description="This API allows users to upload PDF files, embed their content into a FAISS index, and query the embedded content using natural language questions.",
     version="1.0.0"
 )
+from fastapi.middleware.cors import CORSMiddleware
+# Allow CORS requests from any origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Set OpenAI API key from environment variable
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
