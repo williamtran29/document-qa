@@ -1,0 +1,5 @@
+vectorstore/db_faiss/
+vectorstore/texts_store/
+__pycache__
+.env.*
+.env

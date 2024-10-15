@@ -1,0 +1,13 @@
+fastapi
+PyPDF2
+langchain
+langchain_community
+faiss-cpu
+openai
+python-dotenv
+uvicorn
+typing-extensions
+python-multipart
+tiktoken
+numpy
+pydantic
