@@ -25,7 +25,7 @@ Follow these steps to run the project on your local machine using Conda.
 
 4. **Run the project:**
     ```sh
-    uvicorn app:app --reload
+    python main.py
     ```
 
 5. **API Documentation**
