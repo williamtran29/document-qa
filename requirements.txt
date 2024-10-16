@@ -1,5 +1,5 @@
 fastapi
-PyPDF2
+PyMuPDF
 langchain
 langchain_community
 faiss-cpu

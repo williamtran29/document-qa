@@ -12,6 +12,22 @@ Follow these steps to run the project on your local machine using Conda.
 
    Please rename the env.example file to .env, then add your OpenAI key in the appropriate field.
    
+
+   **Important: How to set TESSDATA_PREFIX:**
+
+   To set the TESSDATA_PREFIX, locate the path to the tessdata folder. 
+   
+   For example:
+
+   `TESSDATA_PREFIX=/opt/homebrew/Cellar/tesseract/5.4.1_1/share/tessdata`
+      
+    ```sh
+    brew install tesseract
+    brew info tesseract
+    ```
+
+    Look for the `tessdata` folder path in the information provided above.
+
 2. **Create a new Conda environment:**
     ```sh
     conda create --name document-qa python=3.12

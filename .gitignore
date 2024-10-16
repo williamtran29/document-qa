@@ -3,3 +3,4 @@ vectorstore/texts_store/
 __pycache__
 .env.*
 .env
+tmp

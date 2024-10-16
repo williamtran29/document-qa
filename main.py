@@ -10,12 +10,16 @@ import uuid
 import io
 import json
 import numpy as np
-from PyPDF2 import PdfReader
+import logging
+import fitz
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
 # Load environment variables from .env file
 load_dotenv()
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="PDF Embedding and Query API",
@@ -42,7 +46,11 @@ texts_store = {}
 
 DB_FAISS_PATH = 'vectorstore/db_faiss'
 TEXTS_STORE_PATH = 'vectorstore/texts_store'
+TMP_PATH = 'tmp'
 
+if not os.path.exists(TMP_PATH):
+    os.makedirs(TMP_PATH)
+    
 if not os.path.exists(DB_FAISS_PATH):
     os.makedirs(DB_FAISS_PATH)
 
@@ -59,10 +67,15 @@ def get_openai_instance():
 
 def parse_pdf(file) -> str:
     """Extracts text from a PDF file."""
-    pdf = PdfReader(file)
+    doc = fitz.open(file)
     output = []
-    for page in pdf.pages:
-        text = page.extract_text()
+    for page in doc:
+        text = page.get_text().encode("utf-8")
+        if not text:
+            try:
+                text = page.get_textpage_ocr().extractText()
+            except RuntimeError as e:
+                print(e)
         if text:
             output.append(text)
     return "\n\n".join(output)
@@ -101,13 +114,25 @@ async def upload_pdf(file: UploadFile = File(...), pdf_id: str = Form(None)):
 
     try:
         content = await file.read()
-        content_io = io.BytesIO(content)
-        text = parse_pdf(content_io)
+        temp_file_path = os.path.join(TMP_PATH, f"{uuid.uuid4()}.index")
+        with open(temp_file_path, "wb") as temp_file:
+            temp_file.write(content)
+        
+        text = parse_pdf(temp_file_path)
+        os.remove(temp_file_path)
+        
+        logger.info(f"Extracted text length: {len(text)}")
+        if not text:
+            raise HTTPException(status_code=400, detail="Failed to extract text from the PDF.")
+        
         index, texts = embed_text(text, pdf_id)
+        logger.info(f"Index and texts created for pdf_id: {pdf_id}")
+        
         faiss_indices[pdf_id] = index
         texts_store[pdf_id] = texts
         return {"message": "PDF uploaded and embedded successfully.", "pdf_id": pdf_id}
     except Exception as e:
+        logger.error(f"Error processing file: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 class QueryPayload(BaseModel):
