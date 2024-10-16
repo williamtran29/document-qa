@@ -73,7 +73,7 @@ def parse_pdf(file) -> str:
         text = page.get_text().encode("utf-8")
         if not text:
             try:
-                text = page.get_textpage_ocr().extractText()
+                text = page.get_textpage_ocr(language='eng').extractText()
             except RuntimeError as e:
                 print(e)
         if text:
