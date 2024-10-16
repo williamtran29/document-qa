@@ -12,7 +12,7 @@ Follow these steps to run the project on your local machine using Conda.
 
    Please rename the env.example file to .env, then add your OpenAI key in the appropriate field.
 
-   **Important:** If you want to enable text parsing from images within PDFs, please check the following branch: [PDF OCR Branch](https://github.com/williamtran29/document-qa/tree/pdf-ocr).
+   *Important:* If you want to enable text parsing from images within PDFs, please check the following branch: [PDF OCR Branch](https://github.com/williamtran29/document-qa/tree/pdf-ocr).
    
 3. **Create a new Conda environment:**
     ```sh
