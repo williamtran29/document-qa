@@ -70,7 +70,7 @@ def parse_pdf(file) -> str:
     doc = fitz.open(file)
     output = []
     for page in doc:
-        text = page.get_text().encode("utf-8")
+        text = page.get_text()
         if not text:
             try:
                 text = page.get_textpage_ocr(language='eng').extractText()
